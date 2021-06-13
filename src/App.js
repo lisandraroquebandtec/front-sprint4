@@ -6,7 +6,7 @@ import Produtos from './pages/Produtos';
 
 function App() {
   return (
-    <div class="page-container">
+    <div className="page-container">
       <Messages></Messages>
       <Header></Header>
       <Produtos></Produtos>

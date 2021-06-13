@@ -1,76 +1,77 @@
 import { useEffect, useState } from "react";
 import ProdutosService from "../services/ProdutosService";
+import FiltersService from "../services/FiltersService";
+import BreadcrumbsService from "../services/BreadcrumbsService";
 
-
-function Breadcrumb({ link, descricao }) {
+function Breadcrumb({ id, link, descricao }) {
     return (
-        <li class="breadcrumbs__item">
+        <li className="breadcrumbs__item">
             { link ?
                 <>
-                    <a class="breadcrumbs__link" href={link}>{descricao}</a>
-                    <span class="breadcrumbs__item  breadcrumbs__separator">/</span>
+                    <a className="breadcrumbs__link" href={link}>{descricao}</a>
+                    <span className="breadcrumbs__item  breadcrumbs__separator">/</span>
                 </>
                 :
-                <span class="breadcrumbs__link">{descricao}</span>
+                <span className="breadcrumbs__link">{descricao}</span>
             }
         </li>
     );
 }
 
 function Breadcrumbs() {
-    const breadcrumbs = [
-        {
-            link: "#home",
-            descricao: "Home"
-        },
-        {
-            link: "#home",
-            descricao: "Infantil"
-        },
-        {
-            link: "#home",
-            descricao: "Personagens"
-        },
-        {
-            descricao: "Mario Bros"
-        }
-    ];
+    const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+    // eslint-disable-next-line
+    useEffect(() => carregarBreadcrumbs(), []);
+
+    function carregarBreadcrumbs() {
+        // setCarregando(true);
+        BreadcrumbsService.listar()
+            .then(b => setBreadcrumbs(b))
+            .finally(
+                // () => setCarregando(false)
+            );
+    }
 
     return (
-        <section class="main__breadcrumbs breadcrumbs">
+        <section className="main__breadcrumbs breadcrumbs">
             <nav>
-                <ol class="breadcrumbs__list">
-                    {breadcrumbs.map(b => <Breadcrumb link={b.link} descricao={b.descricao} />)}
+                <ol className="breadcrumbs__list">
+                    {breadcrumbs.map(b => <Breadcrumb key={b.id} link={b.link} descricao={b.descricao} />)}
                 </ol>
             </nav>
         </section>
     )
 }
 
-function Filters() {
+function Filter({ label }) {
     return (
-        <section class="main__filters filters">
-            <ul class="filters__list">
-                <li class="filters__item">
-                    <span class="filters__label">Tamanho</span>
-                    <img class="filters__img" src="assets/filter.svg" alt="filtro tamanho" />
-                </li>
-                <li class="filters__item">
-                    <span class="filters__label">Cor</span>
-                    <img class="filters__img" src="assets/filter.svg" alt="filtro cor" />
-                </li>
-                <li class="filters__item">
-                    <span class="filters__label">Departamento</span>
-                    <img class="filters__img" src="assets/filter.svg" alt="filtro departamento" />
-                </li>
-                <li class="filters__item">
-                    <span class="filters__label">Categoria</span>
-                    <img class="filters__img" src="assets/filter.svg" alt="filtro categoria" />
-                </li>
-                <li class="filters__item">
-                    <span class="filters__label">Manga</span>
-                    <img class="filters__img" src="assets/filter.svg" alt="filtro manga" />
-                </li>
+        <li className="filters__item">
+            <span className="filters__label">{label}</span>
+            <img className="filters__img" src="assets/filter.svg" alt="filtro" />
+        </li>
+    );
+}
+
+function Filters() {
+    const [filters, setFilters] = useState([]);
+
+    // eslint-disable-next-line
+    useEffect(() => carregarFilters(), []);
+
+    function carregarFilters() {
+        // setCarregando(true);
+        FiltersService.listar()
+            .then(f => setFilters(f))
+            .finally(
+                // () => setCarregando(false)
+            );
+    }
+
+    return (
+        <section className="main__filters filters">
+            <ul className="filters__list">
+                {filters.map(f => <Filter key={f.id} label={f.label} />)}
             </ul>
         </section>
     );
@@ -78,13 +79,13 @@ function Filters() {
 
 function Produto({ imagem, descricao, valor }) {
     return (
-        <li class="products__card card">
-            <div class="card">
-                <img class="card__img" src={imagem} alt="" />
-                <p class="card__description">
+        <li className="products__card card">
+            <div className="card">
+                <img className="card__img" src={imagem} alt="" />
+                <p className="card__description">
                     {descricao}
                 </p>
-                <p class="card__price">
+                <p className="card__price">
                     R$ {valor}
                 </p>
             </div>
@@ -93,7 +94,6 @@ function Produto({ imagem, descricao, valor }) {
 }
 
 function Produtos() {
-
     const [produtos, setProdutos] = useState([]);
 
     // eslint-disable-next-line
@@ -109,24 +109,24 @@ function Produtos() {
     }
 
     return (
-        <main class="main">
+        <main className="main">
             <Breadcrumbs></Breadcrumbs>
 
             <Filters></Filters>
 
-            <section class="main__products products">
-                <div class="products__row">
-                    <ol class="products__list">
+            <section className="main__products products">
+                <div className="products__row">
+                    <ol className="products__list">
                         {produtos
                             .map(
                                 p =>
-                                    <Produto imagem={p.imagem} descricao={p.descricao} valor={p.valor} />
+                                    <Produto key={p.id} imagem={p.imagem} descricao={p.descricao} valor={p.valor} />
                             )
                         }
                     </ol>
                 </div>
-                <div class="products__row">
-                    <ol class="products__list">
+                <div className="products__row">
+                    <ol className="products__list">
                     </ol>
                 </div>
             </section>
