@@ -22,13 +22,13 @@ function Breadcrumbs() {
     const [breadcrumbs, setBreadcrumbs] = useState([]);
 
     // eslint-disable-next-line
-    useEffect(() => carregarBreadcrumbs(), []);
+    useEffect(() => loadBreadcrumbs(), []);
     const { addRequest, removeRequest } = useContext(LoadingContext);
     const { setMessage } = useContext(MessageContext);
 
-    function carregarBreadcrumbs() {
+    function loadBreadcrumbs() {
         addRequest();
-        BreadcrumbsService.listar()
+        BreadcrumbsService.get()
             .then(b => setBreadcrumbs(b))
             .catch(() => setMessage("Ocorreu um erro ao carregar os breadcrumbs..."))
             .finally(() => removeRequest());

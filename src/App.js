@@ -8,7 +8,7 @@ import FilterContext from './contexts/FilterContext';
 import LoadingContext from './contexts/LoadingContext';
 import MessageContext from './contexts/MessageContext';
 import useLoading from './hooks/useLoading';
-import ProdutosPage from './pages/produtos/ProdutosPage';
+import ProductsPage from './pages/products/ProductsPage';
 
 function App() {
   const [filter, setFilter] = useState('');
@@ -23,7 +23,7 @@ function App() {
           <div className="page-container">
             <Message></Message>
             <Header></Header>
-            <ProdutosPage></ProdutosPage>
+            <ProductsPage></ProductsPage>
             <Footer></Footer>
           </div>
         </MessageContext.Provider>

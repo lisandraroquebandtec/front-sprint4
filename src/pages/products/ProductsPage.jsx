@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import FilterContext from "../../contexts/FilterContext";
 import LoadingContext from "../../contexts/LoadingContext";
 import MessageContext from "../../contexts/MessageContext";
-import ProdutosService from "../../services/ProdutosService";
+import ProductsService from "../../services/ProductsService";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Filters from "./components/Filters";
 
@@ -22,19 +22,19 @@ function Produto({ imagem, descricao, valor }) {
     );
 }
 
-function ProdutosPage() {
+function ProductsPage() {
     const [produtos, setProdutos] = useState([]);
     const { filter } = useContext(FilterContext);
     const { addRequest, removeRequest } = useContext(LoadingContext);
     const { setMessage } = useContext(MessageContext);
 
     // eslint-disable-next-line
-    useEffect(() => carregarProdutos(), []);
+    useEffect(() => loadProducts(), []);
 
-    function carregarProdutos() {
+    function loadProducts() {
         addRequest();
-        ProdutosService.listar()
-            .then(produtos => setProdutos(produtos))
+        ProductsService.get()
+            .then(produtosAPI => setProdutos(produtosAPI))
             .catch(() => setMessage("Ocorreu um erro ao carregar os produtos..."))
             .finally(() => removeRequest());
     }
@@ -65,4 +65,4 @@ function ProdutosPage() {
     );
 }
 
-export default ProdutosPage;
+export default ProductsPage;

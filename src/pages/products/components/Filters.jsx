@@ -16,14 +16,14 @@ function Filters() {
     const [filters, setFilters] = useState([]);
 
     // eslint-disable-next-line
-    useEffect(() => carregarFilters(), []);
+    useEffect(() => loadFilters(), []);
 
     const { addRequest, removeRequest } = useContext(LoadingContext);
     const { setMessage } = useContext(MessageContext);
 
-    function carregarFilters() {
+    function loadFilters() {
         addRequest();
-        FiltersService.listar()
+        FiltersService.get()
             .then(f => setFilters(f))
             .catch(() => setMessage("Ocorreu um erro ao carregar os filtros..."))
             .finally(() => removeRequest());

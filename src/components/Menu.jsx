@@ -24,7 +24,7 @@ function Menu() {
 
     function carregarMenu() {
         addRequest();
-        MenuService.obter()
+        MenuService.get()
             .then(menu => setMenu(menu))
             .catch(() => setMessage("Ocorreu um erro ao carregar o menu..."))
             .finally(() => removeRequest());
