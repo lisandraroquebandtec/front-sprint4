@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import LoadingContext from "../../../contexts/LoadingContext";
+import MessageContext from "../../../contexts/MensagemContext";
 import BreadcrumbsService from "../../../services/BreadcrumbsService";
 
 function BreadcrumbItem({ link, descricao }) {
@@ -21,14 +23,15 @@ function Breadcrumbs() {
 
     // eslint-disable-next-line
     useEffect(() => carregarBreadcrumbs(), []);
+    const { addRequest, removeRequest } = useContext(LoadingContext);
+    const { setMessage } = useContext(MessageContext);
 
     function carregarBreadcrumbs() {
-        // setCarregando(true);
+        addRequest();
         BreadcrumbsService.listar()
             .then(b => setBreadcrumbs(b))
-            .finally(
-                // () => setCarregando(false)
-            );
+            .catch(() => setMessage("Ocorreu um erro ao carregar os breadcrumbs..."))
+            .finally(() => removeRequest());
     }
 
     return (

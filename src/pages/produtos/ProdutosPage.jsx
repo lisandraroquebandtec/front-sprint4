@@ -1,5 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import FilterContext from "../../contexts/FilterContext";
+import LoadingContext from "../../contexts/LoadingContext";
+import MessageContext from "../../contexts/MensagemContext";
 import ProdutosService from "../../services/ProdutosService";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Filters from "./components/Filters";
@@ -23,17 +25,18 @@ function Produto({ imagem, descricao, valor }) {
 function ProdutosPage() {
     const [produtos, setProdutos] = useState([]);
     const { filter } = useContext(FilterContext);
+    const { addRequest, removeRequest } = useContext(LoadingContext);
+    const { setMessage } = useContext(MessageContext);
 
     // eslint-disable-next-line
     useEffect(() => carregarProdutos(), []);
 
     function carregarProdutos() {
-        // setCarregando(true);
+        addRequest();
         ProdutosService.listar()
             .then(produtos => setProdutos(produtos))
-            .finally(
-                // () => setCarregando(false)
-            );
+            .catch(() => setMessage("Ocorreu um erro ao carregar os produtos..."))
+            .finally(() => removeRequest())
     }
 
     return (

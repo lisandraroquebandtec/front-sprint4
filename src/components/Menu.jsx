@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import LoadingContext from "../contexts/LoadingContext";
+import MessageContext from "../contexts/MensagemContext";
 
 import MenuService from "../services/MenuService";
 
@@ -17,14 +19,15 @@ function Menu() {
 
     // eslint-disable-next-line
     useEffect(() => carregarMenu(), []);
+    const { addRequest, removeRequest } = useContext(LoadingContext);
+    const { setMessage } = useContext(MessageContext);
 
     function carregarMenu() {
-        // setCarregando(true);
+        addRequest();
         MenuService.obter()
             .then(menu => setMenu(menu))
-            .finally(
-                // () => setCarregando(false)
-            );
+            .catch(() => setMessage("Ocorreu um erro ao carregar o menu..."))
+            .finally(() => removeRequest());
     }
 
     return (

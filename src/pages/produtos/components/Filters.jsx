@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import LoadingContext from "../../../contexts/LoadingContext";
+import MessageContext from "../../../contexts/MensagemContext";
 import FiltersService from "../../../services/FiltersService";
 
 function Filter({ label }) {
@@ -16,13 +18,15 @@ function Filters() {
     // eslint-disable-next-line
     useEffect(() => carregarFilters(), []);
 
+    const { addRequest, removeRequest } = useContext(LoadingContext);
+    const { setMessage } = useContext(MessageContext);
+
     function carregarFilters() {
-        // setCarregando(true);
+        addRequest();
         FiltersService.listar()
             .then(f => setFilters(f))
-            .finally(
-                // () => setCarregando(false)
-            );
+            .catch(() => setMessage("Ocorreu um erro ao carregar os filtros..."))
+            .finally(() => removeRequest());
     }
 
     return (
