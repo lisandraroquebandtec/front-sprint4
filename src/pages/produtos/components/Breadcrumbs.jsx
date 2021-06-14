@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import LoadingContext from "../../../contexts/LoadingContext";
-import MessageContext from "../../../contexts/MensagemContext";
+import MessageContext from "../../../contexts/MessageContext";
 import BreadcrumbsService from "../../../services/BreadcrumbsService";
 
 function BreadcrumbItem({ link, descricao }) {

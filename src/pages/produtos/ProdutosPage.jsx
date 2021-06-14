@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import FilterContext from "../../contexts/FilterContext";
 import LoadingContext from "../../contexts/LoadingContext";
-import MessageContext from "../../contexts/MensagemContext";
+import MessageContext from "../../contexts/MessageContext";
 import ProdutosService from "../../services/ProdutosService";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Filters from "./components/Filters";
@@ -36,7 +36,7 @@ function ProdutosPage() {
         ProdutosService.listar()
             .then(produtos => setProdutos(produtos))
             .catch(() => setMessage("Ocorreu um erro ao carregar os produtos..."))
-            .finally(() => removeRequest())
+            .finally(() => removeRequest());
     }
 
     return (

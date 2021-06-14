@@ -6,7 +6,7 @@ import Message from './components/Message';
 import Spinner from './components/Spinner';
 import FilterContext from './contexts/FilterContext';
 import LoadingContext from './contexts/LoadingContext';
-import MessageContext from './contexts/MensagemContext';
+import MessageContext from './contexts/MessageContext';
 import useLoading from './hooks/useLoading';
 import ProdutosPage from './pages/produtos/ProdutosPage';
 

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import LoadingContext from "../../../contexts/LoadingContext";
-import MessageContext from "../../../contexts/MensagemContext";
+import MessageContext from "../../../contexts/MessageContext";
 import FiltersService from "../../../services/FiltersService";
 
-function Filter({ label }) {
+function FilterItem({ label }) {
     return (
         <li className="filters__item">
             <span className="filters__label">{label}</span>
@@ -32,7 +32,7 @@ function Filters() {
     return (
         <section className="main__filters filters">
             <ul className="filters__list">
-                {filters.map(f => <Filter key={f.id} label={f.label} />)}
+                {filters.map(f => <FilterItem key={f.id} label={f.label} />)}
             </ul>
         </section>
     );
