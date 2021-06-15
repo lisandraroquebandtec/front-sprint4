@@ -6,16 +6,16 @@ import ProductsService from "../../services/ProductsService";
 import Breadcrumbs from "./components/Breadcrumbs";
 import Filters from "./components/Filters";
 
-function Produto({ imagem, descricao, valor }) {
+function Product({ image, name, price }) {
     return (
         <li className="products__card card">
             <div className="card">
-                <img className="card__img" src={imagem} alt="" />
+                <img className="card__img" src={image} alt="" />
                 <p className="card__description">
-                    {descricao}
+                    {name}
                 </p>
                 <p className="card__price">
-                    R$ {valor}
+                    R$ {price}
                 </p>
             </div>
         </li>
@@ -23,7 +23,9 @@ function Produto({ imagem, descricao, valor }) {
 }
 
 function ProductsPage() {
-    const [produtos, setProdutos] = useState([]);
+    const [products, setProducts] = useState([]);
+    const [filters, setFilters] = useState([]);
+
     const { filter } = useContext(FilterContext);
     const { addRequest, removeRequest } = useContext(LoadingContext);
     const { setMessage } = useContext(MessageContext);
@@ -34,7 +36,10 @@ function ProductsPage() {
     function loadProducts() {
         addRequest();
         ProductsService.get()
-            .then(produtosAPI => setProdutos(produtosAPI))
+            .then(r => {
+                setProducts(r.products);
+                setFilters(r.filters);
+            })
             .catch(() => setMessage("Ocorreu um erro ao carregar os produtos..."))
             .finally(() => removeRequest());
     }
@@ -42,16 +47,16 @@ function ProductsPage() {
     return (
         <main className="main">
             <Breadcrumbs></Breadcrumbs>
-            <Filters></Filters>
+            <Filters filters={filters}></Filters>
             <section className="main__products products">
                 <div className="products__row">
                     <ol className="products__list">
-                        {produtos
+                        {products
                             .filter(p =>
-                                filter ? p.descricao.toUpperCase().indexOf(filter.toUpperCase()) !== -1 : true)
+                                filter ? p.name.toUpperCase().indexOf(filter.toUpperCase()) !== -1 : true)
                             .map(
                                 p =>
-                                    <Produto key={p.id} imagem={p.imagem} descricao={p.descricao} valor={p.valor} />
+                                    <Product key={p.sku} image={p.image} name={p.name} price={p.price} />
                             )
                         }
                     </ol>

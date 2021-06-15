@@ -1,44 +1,29 @@
-import { useContext, useEffect, useState } from "react";
-import LoadingContext from "../../../contexts/LoadingContext";
-import MessageContext from "../../../contexts/MessageContext";
-import BreadcrumbsService from "../../../services/BreadcrumbsService";
+import { useContext } from "react";
+import CategoriesContext from "../../../contexts/CategoriesContext";
 
-function BreadcrumbItem({ link, descricao }) {
+function BreadcrumbItem({ link, label }) {
     return (
         <li className="breadcrumbs__item">
             { link ?
                 <>
-                    <a className="breadcrumbs__link" href={link}>{descricao}</a>
+                    <a className="breadcrumbs__link" href={link}>{label}</a>
                     <span className="breadcrumbs__item  breadcrumbs__separator">/</span>
                 </>
                 :
-                <span className="breadcrumbs__link">{descricao}</span>
+                <span className="breadcrumbs__link">{label}</span>
             }
         </li>
     );
 }
 
 function Breadcrumbs() {
-    const [breadcrumbs, setBreadcrumbs] = useState([]);
-
-    // eslint-disable-next-line
-    useEffect(() => loadBreadcrumbs(), []);
-    const { addRequest, removeRequest } = useContext(LoadingContext);
-    const { setMessage } = useContext(MessageContext);
-
-    function loadBreadcrumbs() {
-        addRequest();
-        BreadcrumbsService.get()
-            .then(b => setBreadcrumbs(b))
-            .catch(() => setMessage("Ocorreu um erro ao carregar os breadcrumbs..."))
-            .finally(() => removeRequest());
-    }
+    const { categories } = useContext(CategoriesContext);
 
     return (
         <section className="main__breadcrumbs breadcrumbs">
             <nav>
                 <ol className="breadcrumbs__list">
-                    {breadcrumbs.map(b => <BreadcrumbItem key={b.id} link={b.link} descricao={b.descricao} />)}
+                    {categories.current && categories.current.map(c => <BreadcrumbItem key={c.id} link={c.link} label={c.label} />)}
                 </ol>
             </nav>
         </section>

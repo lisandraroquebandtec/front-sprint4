@@ -1,8 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import LoadingContext from "../contexts/LoadingContext";
-import MessageContext from "../contexts/MessageContext";
-
-import MenuService from "../services/MenuService";
+import { useContext } from "react";
+import CategoriesContext from "../contexts/CategoriesContext";
 
 function MenuItem({ label }) {
     return (
@@ -15,25 +12,12 @@ function MenuItem({ label }) {
 }
 
 function Menu() {
-    const [menu, setMenu] = useState([]);
-
-    // eslint-disable-next-line
-    useEffect(() => carregarMenu(), []);
-    const { addRequest, removeRequest } = useContext(LoadingContext);
-    const { setMessage } = useContext(MessageContext);
-
-    function carregarMenu() {
-        addRequest();
-        MenuService.get()
-            .then(menu => setMenu(menu))
-            .catch(() => setMessage("Ocorreu um erro ao carregar o menu..."))
-            .finally(() => removeRequest());
-    }
+    const { categories } = useContext(CategoriesContext);
 
     return (
         <nav className="header__menu menu">
             <ul className="menu__list">
-                {menu.map(m => <MenuItem key={m.id} label={m.label} />)}
+                {categories.all && categories.all.map(m => <MenuItem key={m.id} label={m.label} />)}
             </ul>
         </nav>
     );
