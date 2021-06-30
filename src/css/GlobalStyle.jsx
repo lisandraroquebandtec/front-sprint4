@@ -1,8 +1,25 @@
+import {createGlobalStyle} from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
+*{
+  @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,400;1,600&display=swap");
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+html input {
+  outline: none;
+}
+}
+
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
    License: none (public domain)
 */
-
 html,
 body,
 div,
@@ -127,3 +144,5 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+`
