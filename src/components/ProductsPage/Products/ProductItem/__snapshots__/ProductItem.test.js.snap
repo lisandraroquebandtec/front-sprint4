@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`O componente de item do produto, o snapshot do componente deve permanecer sempre o mesmo 1`] = `
+<li
+  class="sc-bdnxRM ctBBVd"
+>
+  <div
+    class="sc-gtsrHT EKXoD"
+  >
+    <img
+      class="sc-dlnjwi fYWFt"
+      src="/assets/images/c1.webp"
+    />
+    <p
+      class="sc-hKFxyN hdqroc"
+    >
+      Jaqueta Puffer Juvenil com Capuz Super Mario Branco Tam 10 a 18
+    </p>
+    <p
+      class="sc-eCApnc rvNhV"
+    >
+      R$ 
+      199,90
+    </p>
+  </div>
+</li>
+`;

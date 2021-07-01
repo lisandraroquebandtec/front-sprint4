@@ -15,26 +15,44 @@ import {
   ListButton,
 } from "./StyleProductDetails";
 import FilterContext from "../../contexts/FilterContext";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useHistory } from "react-router-dom";
+import { Breadcrumbs, Typography } from "@material-ui/core";
+import  Alert from '@material-ui/lab/Alert';
 
 function ProductDetails() {
+  const history = useHistory();
   const [product, setProduct] = useState({});
   const products = useContext(FilterContext);
   const { id } = useParams();
-
+  const [selected, setSelected] = useState(false);
+  const [alert, setAlert] = useState(false);
+  
   useEffect(() => {
     if (products) {
       setProduct(products.products[id]);
     }
   }, [products]);
 
-  function AddProduct() {
-    alert('Produto adicionado á sacola');
+  function AddProduct(){
+    setAlert(true);
+    setTimeout(() => {
+      history.push('/')
+    }, 1000)
   }
-
-  const [selected, setSelected] = useState(false);
+  
   return (
     <>
+    <Breadcrumbs>
+    <Link to='/' color='inherit'>
+      Home
+    </Link>
+    <Typography color='textPrimary'>{product.name}</Typography>
+    </Breadcrumbs>
+    {
+      alert && <Alert variant="filled" severity="success">
+      Produto adicionado á sacola
+     </Alert>
+    }
     <DetailsContainer>
       <DetailsImage src={product.image} />
       <Details>
@@ -58,9 +76,7 @@ function ProductDetails() {
         <AddContainer>
           <Price>R${product.price}</Price>
           <Buttons>
-            <Link to="/">
               <AddButton onClick={AddProduct}>Adicionar à sacola</AddButton>
-            </Link>
             <Link to="/">
               <CancelButton>Cancelar</CancelButton>
             </Link>

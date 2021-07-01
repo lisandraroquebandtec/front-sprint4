@@ -7,12 +7,15 @@ import { GlobalStyle } from "./css/GlobalStyle";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import NotFound404 from "./pages/NotFound/NotFound404";
 import ProductDetails from "./pages/ProductsDetails/ProductDetails"
+import MessageContext from './contexts/MessageContext';
+import Message from './components/Message/Message'
 
 function App() {
   const [categories, setCategories] = useState();
   const [breadcrumb, setBreadcrumb] = useState();
   const [product, setProduct] = useState();
   const [filter, setFilter] = useState();
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     fetch("/data/categories.json")
@@ -49,7 +52,11 @@ function App() {
           </Route>
           <Route path="/details/:id">
           <FilterContext.Provider value={product}>
-            <ProductDetails  />
+          <MessageContext.Provider value={{ message, setMessage }}>
+            <ProductDetails
+            />
+             <Message></Message>
+          </MessageContext.Provider>
             </FilterContext.Provider>
           </Route>
           <Route>
