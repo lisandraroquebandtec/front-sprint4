@@ -12,7 +12,7 @@ function ProductItem({image, name, price}){
               <Card>
                 <CardImg src={image} />
                 <CardDescription>{name}</CardDescription>
-                <CardPrice>{price}</CardPrice>
+                <CardPrice>R$ {price}</CardPrice>
               </Card>
         </ProductsCard>
     );
